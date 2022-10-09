@@ -117,7 +117,7 @@ class disk_state {
             if (_colors[i] == DISK_DARK)
                 return false;
         }
-        for (size_t i = dark_count(); i < dark_count()*2; ++i) {
+        for (size_t i = dark_count(); i < dark_count() * 2; ++i) {
             if (_colors[i] == DISK_LIGHT)
                 return false;
         }
@@ -180,23 +180,20 @@ sorted_disks sort_lawnmower(const disk_state &before) {
     int numOfSwap = 0;  // record # of step swap
     disk_state after = before;
     size_t n = after.total_count() / 2;
-    for (int i = 0; i <= 2 * std::ceil((int)n/2); ++i) {
+    for (int i = 0; i < std::ceil((int)n / 2); ++i) {
         bool hasSwap = false;
-        if (i % 2 == 0) {
-            for (size_t j = 0; j < 2 * n - 1; ++j) {
-                if (after.get(j) == DISK_DARK && after.get(j + 1) == DISK_LIGHT) {
-                    after.swap(j);
-                    hasSwap = true;
-                    numOfSwap++;
-                }
+        for (size_t j = 0; j < 2 * n - 1; ++j) {
+            if (after.get(j) == DISK_DARK && after.get(j + 1) == DISK_LIGHT) {
+                after.swap(j);
+                hasSwap = true;
+                numOfSwap++;
             }
-        } else {
-            for (size_t j = 2 * n - 1; j > 0; --j) {
-                if (after.get(j) == DISK_LIGHT && after.get(j - 1) == DISK_DARK) {
-                    after.swap(j - 1);
-                    hasSwap = true;
-                    numOfSwap++;
-                }
+        }
+        for (size_t j = 2 * n - 1; j > 0; --j) {
+            if (after.get(j) == DISK_LIGHT && after.get(j - 1) == DISK_DARK) {
+                after.swap(j - 1);
+                hasSwap = true;
+                numOfSwap++;
             }
         }
         if (!hasSwap) {
